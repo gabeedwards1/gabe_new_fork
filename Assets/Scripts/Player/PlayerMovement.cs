@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5f;
+    [SerializeField] public float speed = 5f;
+    [SerializeField] private Animator animator;
     private Rigidbody2D rb;
     private InputHandler input;
 
@@ -16,5 +17,14 @@ public class PlayerMovement : MonoBehaviour
     {
         // Use the MoveInput from our InputHandler
         rb.linearVelocity = input.MoveInput * speed;
+
+        if (input.MoveInput.magnitude > 0)
+        {
+            animator.SetBool("isRunning", true);
+        } 
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
     }
 }
