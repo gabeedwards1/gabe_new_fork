@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] public float speed = 5f;
+    private PlayerController player;
+    
     [SerializeField] private Animator animator;
     private Rigidbody2D rb;
     private InputHandler input;
 
     void Start()
     {
+        player = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
         input = GetComponent<InputHandler>();
     }
@@ -16,7 +18,8 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // Use the MoveInput from our InputHandler
-        rb.linearVelocity = input.MoveInput * speed;
+        float currentSpeed = player.Stats.MoveSpeed;
+        rb.linearVelocity = input.MoveInput * currentSpeed;
 
         if (input.MoveInput.magnitude > 0)
         {
