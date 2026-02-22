@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1993ba2476437194d977a664d49c0c32, type: 3}
+  m_Name: NewPalette
+  m_EditorClassIdentifier: Assembly-CSharp::RoomPalette
+  floorTile: {fileID: 11400000, guid: 84a67e829cca20e4798196021a21cd24, type: 2}
+  wallNorth: {fileID: 11400000, guid: f84fa034335b39d4dabe47a3b1c6221b, type: 2}
+  wallSouth: {fileID: 11400000, guid: 004af43c585489942b0175e3b20cad6c, type: 2}
+  wallEast: {fileID: 11400000, guid: fb44682c895522f40bea9c9e693f40d8, type: 2}
+  wallWest: {fileID: 11400000, guid: 4ef59048f7ac94d429a490c11d85ec78, type: 2}
+  cornerNorthEast: {fileID: 11400000, guid: cfbfc14bb93a22348895a5ff224f0675, type: 2}
+  cornerNorthWest: {fileID: 11400000, guid: 20fbb1bf72fc4dd4a9d26d0b746f4f16, type: 2}
+  cornerSouthEast: {fileID: 11400000, guid: b78ef467a07f02c41ad20b5d26c63c65, type: 2}
+  cornerSouthWest: {fileID: 11400000, guid: 64f96db4b057c5143a60aa05ec24559b, type: 2}
+  verticalWallFace: {fileID: 11400000, guid: f2245411f84448e44b953135fdf0c3e6, type: 2}
+  singlePillar: {fileID: 11400000, guid: ec9dc9bed4818224a81ee23e88f89e50, type: 2}
+  thinWallHorizontal: {fileID: 0}
+  thinWallVertical: {fileID: 0}
