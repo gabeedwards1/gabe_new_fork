@@ -7,12 +7,10 @@ public class UIStats : MonoBehaviour
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private TextMeshProUGUI strengthText;
-    [SerializeField] private TextMeshProUGUI attackSpeedText;
 
     private float speed;
     private float health;
     private float strength;
-    private float attackSpeed;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,7 +21,6 @@ public class UIStats : MonoBehaviour
         speed = player.Stats.MoveSpeed;
         health = player.Stats.MaxHealth;
         strength = player.Stats.Strength;
-        attackSpeed = player.Stats.AttackSpeed;
         */
     }
 
@@ -34,12 +31,10 @@ public class UIStats : MonoBehaviour
         speedText.text = string.Format("{0}%", speed);
         healthText.text = string.Format("{0}", health);
         strengthText.text = string.Format ("{0}", strength);
-        attackSpeedText.text = string.Format("{0}", attackSpeed);
         */
 
         speedText.text = string.Format("{0}%", 100);
         healthText.text = string.Format("{0}%", 100);
         strengthText.text = string.Format("{0}%", 100);
-        attackSpeedText.text = string.Format("{0}%", 100);
     }
 }
