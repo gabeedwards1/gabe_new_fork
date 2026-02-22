@@ -6,6 +6,8 @@ public class PlayerFlip : MonoBehaviour
     private InputHandler input;
     private Camera mainCamera;
 
+    [SerializeField] private Transform graphicsTransform;
+
     void Start()
     {
         input = GetComponent<InputHandler>();
@@ -26,12 +28,12 @@ public class PlayerFlip : MonoBehaviour
         if (mouseWorldPos.x < transform.position.x)
         {
             // Look Left
-            transform.localScale = new Vector3(-1, 1, 1);
+            graphicsTransform.localScale = new Vector3(-1, 1, 1);
         }
         else if (mouseWorldPos.x > transform.position.x)
         {
             // Look Right
-            transform.localScale = new Vector3(1, 1, 1);
+            graphicsTransform.localScale = new Vector3(1, 1, 1);
         }
     }
 }
