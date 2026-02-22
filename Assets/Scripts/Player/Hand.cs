@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Hand : MonoBehaviour
@@ -7,21 +6,28 @@ public class Hand : MonoBehaviour
     public GameObject heldItem;
     private GameObject player;
     private InputHandler inputHandler;
+    private PlayerControls controls;
 
-    int maxItems = 4;
-    public GameObject[]heldItems;
-    private int itemCount = 0;
+    private int maxItems = 4;
+    public GameObject[] heldItems;
 
     public void Start()
     {
         player = transform.parent.gameObject;
-
         inputHandler = GetComponentInParent<InputHandler>();
-
         heldItems = new GameObject[maxItems];
 
         if (inputHandler == null)
             inputHandler = FindAnyObjectByType<InputHandler>();
+
+        controls = new PlayerControls();
+
+        controls.Player.EquipSlot1.performed += ctx => Equip(0);
+        controls.Player.EquipSlot2.performed += ctx => Equip(1);
+        controls.Player.EquipSlot3.performed += ctx => Equip(2);
+        controls.Player.EquipSlot4.performed += ctx => Equip(3);
+
+        controls.Enable();
 
         if (heldItem != null)
         {
@@ -29,27 +35,25 @@ public class Hand : MonoBehaviour
         }
     }
 
-    public void Update()
+    private void OnDisable()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(inputHandler.MousePosition);
-        mousePos.z = 0f;
-
-        if (player.transform.position.x < mousePos.x)
-        {
-            ChangeLayer(true);
-        }
-        else
-        {
-            ChangeLayer(false);
-        }
+        if (controls != null)
+            controls.Disable();
     }
 
-    private void ChangeLayer(bool isFront)
+    public void Update()
     {
-        var sr = heldItem.GetComponent<SpriteRenderer>();
-        if (sr != null)
+        if (inputHandler == null) return;
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(inputHandler.MousePosition);
+        mousePos.z = 0f;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Item"))
         {
-            sr.sortingOrder = isFront ? 1 : -1;
+            Grab(collision.gameObject);
         }
     }
 
@@ -60,19 +64,52 @@ public class Hand : MonoBehaviour
             if (heldItems[i] == null)
             {
                 heldItems[i] = item;
-                item.transform.SetParent(transform);
+                item.transform.SetParent(this.transform);
                 item.transform.localPosition = Vector3.zero;
+                item.SetActive(false);
                 return;
             }
         }
-        Debug.LogWarning("Cannot hold more than " + maxItems + " items!");
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    public void Equip(int choice)
     {
-        if (other.CompareTag("Item"))
+        if (choice < 0 || choice >= heldItems.Length) return;
+
+        if (heldItem != null)
         {
-            Grab(other.gameObject);
+            heldItem.SetActive(false);
+        }
+
+        if (heldItems[choice] != null)
+        {
+            heldItem = heldItems[choice];
+            heldItem.SetActive(true);
+
+            heldItem.transform.SetParent(this.transform);
+            heldItem.transform.localPosition = Vector3.zero;
+            heldItem.transform.localScale = Vector3.one;
+            heldItem.GetComponentInChildren<SpriteRenderer>().transform.localRotation = Quaternion.identity;
+            ChangeLayer(10);
+        }
+        else
+        {
+            heldItem = null;
+        }
+    }
+
+    private void ChangeLayer(int layer)
+    {
+        if (heldItem == null) return;
+
+        var sr = heldItem.GetComponentInChildren<SpriteRenderer>();
+
+        if (sr != null)
+        {
+            sr.sortingOrder = layer;
+
+            // Ensure Z-offset stays consistent
+            heldItem.transform.localPosition = new Vector3(0, 0, -0.1f);
         }
     }
 }

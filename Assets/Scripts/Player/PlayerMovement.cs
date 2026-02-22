@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     private Rigidbody2D rb;
     private InputHandler input;
+    private bool wasRunning = false;
+    private Camera cam;
 
     void Start()
     {
@@ -17,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        bool isRunning = animator.GetBool("isRunning");
+
         // Use the MoveInput from our InputHandler
         float currentSpeed = player.Stats.MoveSpeed;
         rb.linearVelocity = input.MoveInput * currentSpeed;
@@ -29,13 +33,29 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("isRunning", false);
         }
+
+        if (isRunning && !wasRunning)
+        {
+            FindFirstObjectByType<AudioManager>().Play("Running");
+        }
+        else if (!isRunning && wasRunning)
+        {
+            FindFirstObjectByType<AudioManager>().Stop("Running");
+        }
+
+        wasRunning = isRunning;
         
         FlipTowardMouse();
     }
 
     void FlipTowardMouse()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(input.MousePosition);
+        if (cam == null)
+        {
+            cam = Camera.main;
+        }
+
+        Vector3 mousePos = cam.ScreenToWorldPoint(input.MousePosition);
     
         if (mousePos.x < transform.position.x)
         {
