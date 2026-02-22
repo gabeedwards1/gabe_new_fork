@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
         input = GetComponent<InputHandler>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         bool isRunning = animator.GetBool("isRunning");
 
