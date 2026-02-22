@@ -6,6 +6,7 @@ public class WeaponOrbit : MonoBehaviour
     [SerializeField] private Camera mainCamera;
 
     private Transform currentWeaponTransform;
+    private WeaponBase currentWeapon;
 
     private void Start()
     {
