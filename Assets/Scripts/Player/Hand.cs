@@ -1,9 +1,9 @@
-using System;
 using UnityEngine;
 
 public class Hand : MonoBehaviour
 {
     public GameObject heldItem;
+    public UIInventory inventory;
     private GameObject player;
     private InputHandler inputHandler;
     private PlayerControls controls;
@@ -60,13 +60,16 @@ public class Hand : MonoBehaviour
     public void Grab(GameObject item)
     {
         for (int i = 0; i < heldItems.Length; i++)
-        {
+        {         
             if (heldItems[i] == null)
             {
                 heldItems[i] = item;
                 item.transform.SetParent(this.transform);
                 item.transform.localPosition = Vector3.zero;
                 item.SetActive(false);
+
+                inventory.updateInventory();
+
                 return;
             }
         }
